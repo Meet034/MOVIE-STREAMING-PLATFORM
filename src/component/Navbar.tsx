@@ -18,74 +18,80 @@ const Navbar = () => {
 
   return (
     <div className="bg-black min-h-screen w-full relative">
-      {/* Navbar */}
-      <div className="bg-black w-full h-[80px] fixed top-0 left-0 z-50">
-        <div className="flex items-center justify-between px-12 h-full">
-          {/* Left: Logo */}
-          <div>
-            <img src="/logo.svg" alt="logo" className="w-[120px] h-[50px]" />
-          </div>
+      {/* Desktop Navbar */}
+      <div className="hidden md:flex items-center justify-between px-12 h-[80px] fixed top-0 left-0 w-full z-50">
+        {/* Logo */}
+        <div>
+          <img src="/logo.svg" alt="logo" className="w-[120px] h-[50px]" />
+        </div>
 
-          {/* Middle: Nav Links (desktop only) */}
-          <div className="hidden md:flex items-center gap-8 px-8 py-3 rounded-full 
-                          border border-white/20 bg-black/40 backdrop-blur-xl 
-                          shadow-[0_0_20px_rgba(0,255,200,0.3)] 
-                          hover:shadow-[0_0_35px_rgba(0,255,200,0.5)] 
-                          transition-all duration-500 ease-in-out">
-            {navLinks.map((l) => (
-              <Link
-                key={l.label}
-                to={l.to}
-                className="text-white text-lg font-medium transition-colors duration-200
-                           hover:text-amber-400"
-              >
-                {l.label}
-              </Link>
-            ))}
-          </div>
-
-          {/* Right: Search + Login (desktop only) */}
-          <div className="hidden md:flex items-center gap-6">
-            <Search />
-            {user ? (
-              <UserButton />
-            ) : (
-              <button
-                onClick={() => openSignIn()}
-                className="px-6 py-2 rounded-full bg-gradient-to-r from-amber-500 to-red-500 
-                           text-white font-semibold tracking-wide 
-                           hover:from-amber-400 hover:to-red-400 
-                           transition-all duration-300"
-              >
-                Login
-              </button>
-            )}
-          </div>
-
-          {/* Mobile: Login + Hamburger */}
-          <div className="flex items-center gap-4 md:hidden">
-            {user ? (
-              <UserButton />
-            ) : (
-              <button
-                onClick={() => openSignIn()}
-                className="px-6 py-2 rounded-full bg-gradient-to-r from-amber-500 to-red-500 
-                           text-white font-semibold tracking-wide 
-                           hover:from-amber-400 hover:to-red-400 
-                           transition-all duration-300"
-              >
-                Login
-              </button>
-            )}
-
-            <button
-              className="p-2"
-              aria-label="Open menu"
-              onClick={() => setOpen(true)}
+        {/* Navigation Links */}
+        <div className="flex items-center gap-8 px-8 py-3 rounded-full 
+                        border border-white/20 bg-black/40 backdrop-blur-xl 
+                        shadow-[0_0_20px_rgba(0,255,200,0.3)] 
+                        hover:shadow-[0_0_35px_rgba(0,255,200,0.5)] 
+                        transition-all duration-500 ease-in-out">
+          {navLinks.map((link) => (
+            <Link
+              key={link.label}
+              to={link.to}
+              className="text-white text-lg font-medium transition-colors duration-200
+                         hover:text-amber-400"
             >
-              <Menu className="w-7 h-7 text-white" />
+              {link.label}
+            </Link>
+          ))}
+        </div>
+
+        {/* Search + Login/User */}
+        <div className="flex items-center gap-6">
+          <Search className="text-white cursor-pointer" />
+          {user ? (
+            <UserButton />
+          ) : (
+            <button
+              onClick={() => openSignIn()}
+              className="px-6 py-2 rounded-full bg-gradient-to-r from-amber-500 to-red-500 
+                         text-white font-semibold tracking-wide 
+                         hover:from-amber-400 hover:to-red-400 
+                         transition-all duration-300"
+            >
+              Login
             </button>
-          </div>
+          )}
+        </div>
+      </div>
+
+      {/* Mobile Navbar */}
+      <div className="flex items-center justify-between w-full px-4 h-[80px] fixed top-0 left-0 md:hidden z-50">
+        {/* Logo */}
+        <div>
+          <img src="/logo.svg" alt="logo" className="w-[120px] h-[50px]" />
+        </div>
+
+        {/* Right: Login + Hamburger */}
+        <div className="flex items-center gap-4">
+          {user ? (
+            <UserButton />
+          ) : (
+            <button
+              onClick={() => openSignIn()}
+              className="px-4 py-2 rounded-full bg-gradient-to-r from-amber-500 to-red-500 
+                         text-white font-semibold tracking-wide 
+                         hover:from-amber-400 hover:to-red-400 
+                         transition-all duration-300"
+            >
+              Login
+            </button>
+          )}
+
+          <button
+            className="p-2"
+            aria-label="Open menu"
+            onClick={() => setOpen(true)}
+          >
+            <Menu className="w-7 h-7 text-white" />
+          </button>
         </div>
       </div>
 
@@ -106,15 +112,15 @@ const Navbar = () => {
 
         {/* Navigation Links */}
         <div className="flex flex-col items-center space-y-6">
-          {navLinks.map((l) => (
+          {navLinks.map((link) => (
             <Link
-              key={l.label}
-              to={l.to}
+              key={link.label}
+              to={link.to}
               onClick={() => setOpen(false)}
               className="text-white text-lg font-medium transition-colors duration-200
                          hover:text-amber-400"
             >
-              {l.label}
+              {link.label}
             </Link>
           ))}
         </div>

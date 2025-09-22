@@ -1,13 +1,12 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { Menu, X, Search, User } from "lucide-react";
+import { Menu, X, Search } from "lucide-react";
 import { useClerk, UserButton, useUser } from "@clerk/clerk-react";
 
 const Navbar = () => {
   const [open, setOpen] = useState(false);
-
-  const{user}=useUser();
-  const{openSignIn}=useClerk();
+  const { user } = useUser();
+  const { openSignIn } = useClerk();
 
   const navLinks = [
     { to: "/", label: "Home" },
@@ -16,10 +15,6 @@ const Navbar = () => {
     { to: "/releases", label: "Releases" },
     { to: "/favourite", label: "Favourites" },
   ];
-
-  const handleSearchClick = () => {
-    alert("Search clicked! (You can implement search logic here)");
-  };
 
   return (
     <div className="bg-black min-h-screen w-full relative">
@@ -32,20 +27,18 @@ const Navbar = () => {
           </div>
 
           {/* Middle: Nav Links (desktop only) */}
-      <div className="hidden md:flex items-center gap-8 px-8 py-3 rounded-full 
-                border border-white/20 bg-black/40 backdrop-blur-xl 
-                shadow-[0_0_20px_rgba(0,255,200,0.3)] 
-                hover:shadow-[0_0_35px_rgba(0,255,200,0.5)] 
-                transition-all duration-500 ease-in-out">
-  
-
+          <div className="hidden md:flex items-center gap-8 px-8 py-3 rounded-full 
+                          border border-white/20 bg-black/40 backdrop-blur-xl 
+                          shadow-[0_0_20px_rgba(0,255,200,0.3)] 
+                          hover:shadow-[0_0_35px_rgba(0,255,200,0.5)] 
+                          transition-all duration-500 ease-in-out">
             {navLinks.map((l) => (
               <Link
                 key={l.label}
                 to={l.to}
                 className="text-white text-lg font-medium transition-colors duration-200
-             hover:text-amber-400"
->
+                           hover:text-amber-400"
+              >
                 {l.label}
               </Link>
             ))}
@@ -53,38 +46,38 @@ const Navbar = () => {
 
           {/* Right: Search + Login (desktop only) */}
           <div className="hidden md:flex items-center gap-6">
-            <Search/>
-            {
-              user ?(
-                <UserButton/>
-                 ):(
-                    <button onClick={()=>openSignIn()} className="px-6 py-2 rounded-full bg-gradient-to-r from-amber-500 to-red-500 
-                   text-white font-semibold tracking-wide 
-                   hover:from-amber-400 hover:to-red-400 
-                   transition-all duration-300"> Login </button>
-             
-                
-              )
-            }
-          
-           
-          
+            <Search />
+            {user ? (
+              <UserButton />
+            ) : (
+              <button
+                onClick={() => openSignIn()}
+                className="px-6 py-2 rounded-full bg-gradient-to-r from-amber-500 to-red-500 
+                           text-white font-semibold tracking-wide 
+                           hover:from-amber-400 hover:to-red-400 
+                           transition-all duration-300"
+              >
+                Login
+              </button>
+            )}
           </div>
 
           {/* Mobile: Login + Hamburger */}
           <div className="flex items-center gap-4 md:hidden">
-            {
-              user ?
-              (
-                <UserButton/>
-              ):( <button onClick={()=>openSignIn()} className="px-6 py-2 rounded-full bg-gradient-to-r from-amber-500 to-red-500 
-                   text-white font-semibold tracking-wide 
-                   hover:from-amber-400 hover:to-red-400 
-                   transition-all duration-300">
-              Login
-            </button>)
-            }
-        
+            {user ? (
+              <UserButton />
+            ) : (
+              <button
+                onClick={() => openSignIn()}
+                className="px-6 py-2 rounded-full bg-gradient-to-r from-amber-500 to-red-500 
+                           text-white font-semibold tracking-wide 
+                           hover:from-amber-400 hover:to-red-400 
+                           transition-all duration-300"
+              >
+                Login
+              </button>
+            )}
+
             <button
               className="p-2"
               aria-label="Open menu"
@@ -99,8 +92,8 @@ const Navbar = () => {
       {/* Mobile Menu Overlay */}
       <div
         className={`fixed top-0 left-0 w-full h-full bg-black/90 z-50 flex flex-col items-center 
-          px-8 pt-24 transition-transform duration-300 ease-in-out md:hidden
-          ${open ? "translate-x-0" : "-translate-x-full"}`}
+                    px-8 pt-24 transition-transform duration-300 ease-in-out md:hidden
+                    ${open ? "translate-x-0" : "-translate-x-full"}`}
       >
         {/* Close Button */}
         <button
@@ -118,8 +111,8 @@ const Navbar = () => {
               key={l.label}
               to={l.to}
               onClick={() => setOpen(false)}
-                className="text-white text-lg font-medium transition-colors duration-200
-             hover:text-amber-400"
+              className="text-white text-lg font-medium transition-colors duration-200
+                         hover:text-amber-400"
             >
               {l.label}
             </Link>
@@ -127,7 +120,7 @@ const Navbar = () => {
         </div>
       </div>
     </div>
-        
   );
 };
+
 export default Navbar;

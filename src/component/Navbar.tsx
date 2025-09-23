@@ -1,12 +1,13 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
-import { Menu, X, Search } from "lucide-react";
+import { Link, useNavigate } from "react-router-dom";
+import { Menu, X, Search, TicketPlus } from "lucide-react";
 import { useClerk, UserButton, useUser } from "@clerk/clerk-react";
 
 const Navbar = () => {
   const [open, setOpen] = useState(false);
   const { user } = useUser();
   const { openSignIn } = useClerk();
+  const navigate = useNavigate();
 
   const navLinks = [
     { to: "/", label: "Home" },
@@ -17,13 +18,16 @@ const Navbar = () => {
   ];
 
   return (
-    <div className="bg-black min-h-screen w-full relative">
+    <div className="bg-black  w-full relative">
       {/* Desktop Navbar */}
       <div className="hidden md:flex items-center justify-between px-12 h-[80px] fixed top-0 left-0 w-full z-50">
         {/* Logo */}
-        <div>
-          <img src="/logo.svg" alt="logo" className="w-[120px] h-[50px]" />
-        </div>
+     {/* Logo */}
+<div>
+  <Link to="/">
+    <img src="/logo.svg" alt="logo" className="w-[120px] h-[50px] cursor-pointer" />
+  </Link>
+</div>
 
         {/* Navigation Links */}
         <div className="flex items-center gap-8 px-8 py-3 rounded-full 
@@ -47,8 +51,16 @@ const Navbar = () => {
         <div className="flex items-center gap-6">
           <Search className="text-white cursor-pointer" />
           {user ? (
-            <UserButton />
-          ) : (
+  <UserButton>
+    <UserButton.MenuItems>
+      <UserButton.Action 
+        label="My Bookings" 
+        labelIcon={<TicketPlus width={15} />} 
+        onClick={() => navigate("/my-bookings")} 
+      />
+    </UserButton.MenuItems>
+  </UserButton>
+) : (
             <button
               onClick={() => openSignIn()}
               className="px-6 py-2 rounded-full bg-gradient-to-r from-amber-500 to-red-500 
@@ -65,25 +77,36 @@ const Navbar = () => {
       {/* Mobile Navbar */}
       <div className="flex items-center justify-between w-full px-4 h-[80px] fixed top-0 left-0 md:hidden z-50">
         {/* Logo */}
-        <div>
-          <img src="/logo.svg" alt="logo" className="w-[120px] h-[50px]" />
-        </div>
+       <div>
+  <Link to="/">
+    <img src="/logo.svg" alt="logo" className="w-[120px] h-[50px] cursor-pointer" />
+  </Link>
+</div>
 
         {/* Right: Login + Hamburger */}
         <div className="flex items-center gap-4">
-          {user ? (
-            <UserButton />
-          ) : (
-            <button
-              onClick={() => openSignIn()}
-              className="px-4 py-2 rounded-full bg-gradient-to-r from-amber-500 to-red-500 
-                         text-white font-semibold tracking-wide 
-                         hover:from-amber-400 hover:to-red-400 
-                         transition-all duration-300"
-            >
-              Login
-            </button>
-          )}
+        {user ? (
+  <UserButton>
+    <UserButton.MenuItems>
+      <UserButton.Action 
+        label="My Bookings" 
+        labelIcon={<TicketPlus width={15} />} 
+        onClick={() => navigate("/my-bookings")} 
+      />
+    </UserButton.MenuItems>
+  </UserButton>
+) : (
+  <button
+    onClick={() => openSignIn()}
+    className="px-4 py-2 rounded-full bg-gradient-to-r from-amber-500 to-red-500 
+               text-white font-semibold tracking-wide 
+               hover:from-amber-400 hover:to-red-400 
+               transition-all duration-300"
+  >
+    Login
+  </button>
+)}
+
 
           <button
             className="p-2"
@@ -116,7 +139,7 @@ const Navbar = () => {
             <Link
               key={link.label}
               to={link.to}
-              onClick={() => setOpen(false)}
+              onClick={() => setOpen(true)}
               className="text-white text-lg font-medium transition-colors duration-200
                          hover:text-amber-400"
             >
